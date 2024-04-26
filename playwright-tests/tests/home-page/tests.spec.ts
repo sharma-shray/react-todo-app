@@ -21,6 +21,26 @@ test('Todo has header text', async ({ page }) => {
   }
 });
 
+
+test('Check for 3 div elements with test task', async ({ page }) => {
+  await page.goto('localhost:3000');
+
+  await page.waitForSelector('.todo-item');
+
+  const todoItems = await page.$$('.todo-item');
+
+  let taskCount = 0;
+  for (const item of todoItems) {
+    const taskText = await item.innerText();
+    if (taskText.includes('Learn Javascript') || taskText.includes('Learn React') || taskText.includes('Build a React App')) {
+      taskCount++;
+    }
+  }
+
+  expect(taskCount).toBe(3);
+});
+
+
 test('input field placeholder text', async ({ page }) => {
   await page.goto('localhost:3000');
 
